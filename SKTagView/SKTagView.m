@@ -202,9 +202,13 @@
 }
 
 - (void)btnLong:(UILongPressGestureRecognizer *)gestureRecognizer {
-  if (self.didLongPressedTagAtIndex) {
-    self.didLongPressedTagAtIndex(
-        [self.subviews indexOfObject:gestureRecognizer.view]);
+
+  if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+
+    if (self.didLongPressedTagAtIndex) {
+      self.didLongPressedTagAtIndex(
+          [self.subviews indexOfObject:gestureRecognizer.view]);
+    }
   }
 }
 
