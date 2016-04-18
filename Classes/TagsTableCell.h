@@ -10,5 +10,5 @@
 
 @class SKTagView;
 @interface TagsTableCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet SKTagView *tagView;
+@property(strong, nonatomic) SKTagView *tagView;
 @end

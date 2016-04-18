@@ -16,6 +16,7 @@
 @property(assign, nonatomic) CGFloat preferredMaxLayoutWidth;
 @property(assign, nonatomic) BOOL singleLine;
 @property(copy, nonatomic, nullable) void (^didTapTagAtIndex)(NSUInteger index);
+@property(copy, nonatomic, nullable) void (^didLongPressedTagAtIndex)(NSUInteger index);
 @property(strong, nonatomic, nullable) NSMutableArray *tags;
 - (void)addTag:(nonnull SKTag *)tag;
 - (void)insertTag:(nonnull SKTag *)tag atIndex:(NSUInteger)index;
