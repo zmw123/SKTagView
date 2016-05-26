@@ -91,7 +91,7 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
                                     self.colors[idx % self.colors.count]]];
     tag.cornerRadius = 5;
     tag.enable = NO;
-      tag.type = SKTagTypeCustom;
+      tag.type = SKTagTypeCustomDelete;
 
     [cell.tagView addTag:tag];
   }];

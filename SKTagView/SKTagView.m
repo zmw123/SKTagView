@@ -119,6 +119,10 @@
   if (!self.singleLine && self.preferredMaxLayoutWidth > 0) {
     for (UIView *view in subviews) {
       CGSize size = view.intrinsicContentSize;
+        if (CGSizeEqualToSize(size, CGSizeMake(0, 0)))
+        {
+            size = view.frame.size;
+        }
       if (previousView) {
         CGFloat width = size.width;
         currentX += itemSpacing;
@@ -185,7 +189,14 @@
     [btn addGestureRecognizer:longPress];
 
   } break;
-          case SKTagTypeCustom:
+          case SKTagTypeCustomDelete:
+      {
+          if (self.delegate && [self.delegate respondsToSelector:@selector(customViewForTag:)])
+          {
+              btn = [self.delegate customViewForTag:tag];
+          }
+      }break;
+      case SKTagTypeCustomAdd:
       {
           if (self.delegate && [self.delegate respondsToSelector:@selector(customViewForTag:)])
           {
