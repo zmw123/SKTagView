@@ -119,7 +119,7 @@
   if (!self.singleLine && self.preferredMaxLayoutWidth > 0) {
     for (UIView *view in subviews) {
       CGSize size = view.intrinsicContentSize;
-        if (CGSizeEqualToSize(size, CGSizeMake(0, 0)))
+        if (size.width <= 0 || size.height <= 0)
         {
             size = view.frame.size;
         }
