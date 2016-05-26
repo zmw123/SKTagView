@@ -9,6 +9,7 @@
 typedef enum : NSUInteger {
   SKtagTypeTaped,
   SKtagTypeLongPressed,
+    SKTagTypeCustom,
 } SKTagType;
 
 @interface SKTag : NSObject

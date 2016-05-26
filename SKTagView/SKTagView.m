@@ -185,6 +185,13 @@
     [btn addGestureRecognizer:longPress];
 
   } break;
+          case SKTagTypeCustom:
+      {
+          if (self.delegate && [self.delegate respondsToSelector:@selector(customViewForTag:)])
+          {
+              btn = [self.delegate customViewForTag:tag];
+          }
+      }break;
   default:
     [btn addTarget:self
                   action:@selector(onTag:)

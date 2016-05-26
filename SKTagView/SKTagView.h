@@ -8,6 +8,13 @@
 #import "SKTag.h"
 #import <UIKit/UIKit.h>
 
+@protocol SKTagVieDataSource <NSObject>
+
+@optional
+- (nonnull UIView *)customViewForTag:(nonnull SKTag *)tag;
+@end
+
+
 @interface SKTagView : UIView
 
 @property(assign, nonatomic) UIEdgeInsets padding;
@@ -18,6 +25,8 @@
 @property(copy, nonatomic, nullable) void (^didTapTagAtIndex)(NSUInteger index);
 @property(copy, nonatomic, nullable) void (^didLongPressedTagAtIndex)(NSUInteger index);
 @property(strong, nonatomic, nullable) NSMutableArray *tags;
+
+@property(weak, nonatomic) id<SKTagVieDataSource> delegate;
 - (void)addTag:(nonnull SKTag *)tag;
 - (void)insertTag:(nonnull SKTag *)tag atIndex:(NSUInteger)index;
 - (void)removeTag:(nonnull SKTag *)tag;
@@ -25,3 +34,4 @@
 - (void)removeAllTags;
 
 @end
+

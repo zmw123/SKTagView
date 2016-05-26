@@ -23,7 +23,7 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
 @end
 
 @interface TagsTableViewController () <UITableViewDelegate,
-                                       UITableViewDataSource>
+                                       UITableViewDataSource, SKTagVieDataSource>
 @property(nonatomic, strong) NSArray *colors;
 
 @property(nonatomic, strong) UITableView *tableView;
@@ -57,6 +57,7 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
   cell.tagView.interitemSpacing = 15;
   cell.tagView.lineSpacing = 10;
 
+    cell.tagView.delegate = self;
   [cell.tagView removeAllTags];
 
   // Add Tags
@@ -90,9 +91,17 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
                                     self.colors[idx % self.colors.count]]];
     tag.cornerRadius = 5;
     tag.enable = NO;
+      tag.type = SKTagTypeCustom;
 
     [cell.tagView addTag:tag];
   }];
+}
+
+- (UIView *)customViewForTag:(SKTag *)tag
+{
+    UILabel *label = [[UILabel alloc] init];
+    label.text = tag.text;
+    return label;
 }
 
 #pragma mark - UITableViewDataSource
