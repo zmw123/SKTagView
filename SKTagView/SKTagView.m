@@ -38,7 +38,12 @@
   if (!self.singleLine && self.preferredMaxLayoutWidth > 0) {
     NSInteger lineCount = 0;
     for (UIView *view in subviews) {
-      CGSize size = view.intrinsicContentSize;
+//      CGSize size = view.intrinsicContentSize;
+        CGSize size = view.intrinsicContentSize;
+        if (size.width <= 0 || size.height <= 0)
+        {
+            size = view.frame.size;
+        }
       if (previousView) {
         CGFloat width = size.width;
         currentX += itemSpacing;
@@ -61,12 +66,22 @@
     intrinsicHeight += bottomPadding + lineSpacing * (lineCount - 1);
   } else {
     for (UIView *view in subviews) {
-      CGSize size = view.intrinsicContentSize;
+//      CGSize size = view.intrinsicContentSize;
+        CGSize size = view.intrinsicContentSize;
+        if (size.width <= 0 || size.height <= 0)
+        {
+            size = view.frame.size;
+        }
       intrinsicWidth += size.width;
     }
     intrinsicWidth += itemSpacing * (subviews.count - 1) + rightPadding;
+      CGSize first = ((UIView *)subviews.firstObject).intrinsicContentSize;
+      if (first.width <= 0 || first.height <= 0)
+      {
+          first = ((UIView *)subviews.firstObject).frame.size;
+      }
     intrinsicHeight +=
-        ((UIView *)subviews.firstObject).intrinsicContentSize.height +
+        first.height +
         bottomPadding;
   }
 
