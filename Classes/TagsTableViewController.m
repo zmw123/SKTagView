@@ -59,7 +59,7 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
 
     cell.tagView.delegate = self;
   [cell.tagView removeAllTags];
-
+    cell.tagView.maxLineCount = 2;
   // Add Tags
   [@[
     @"Python",
@@ -132,7 +132,6 @@ static NSString *const kTagsTableCellReuseIdentifier = @"TagsTableCell";
         dequeueReusableCellWithIdentifier:kTagsTableCellReuseIdentifier];
   });
   [self configureCell:cell atIndexPath:indexPath];
-
   return [cell.contentView
              systemLayoutSizeFittingSize:UILayoutFittingCompressedSize]
              .height +

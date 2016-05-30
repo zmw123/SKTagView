@@ -15,7 +15,15 @@
 @end
 
 @implementation SKTagView
-
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        self.maxLineCount = 0;
+    }
+    return self;
+}
 #pragma mark - Lifecycle
 
 - (CGSize)intrinsicContentSize {
@@ -38,7 +46,6 @@
   if (!self.singleLine && self.preferredMaxLayoutWidth > 0) {
     NSInteger lineCount = 0;
     for (UIView *view in subviews) {
-//      CGSize size = view.intrinsicContentSize;
         CGSize size = view.intrinsicContentSize;
         if (size.width <= 0 || size.height <= 0)
         {
@@ -51,8 +58,24 @@
           currentX += size.width;
         } else {
           lineCount++;
-          currentX = leftPadding + size.width;
-          intrinsicHeight += size.height;
+            if (self.maxLineCount > 0)
+            {
+                if (self.maxLineCount > 0 && lineCount >= self.maxLineCount + 1)
+                {
+                    currentX += size.width;
+                    view.hidden = YES;
+                }
+                else
+                {
+                    currentX = leftPadding + size.width;
+                    intrinsicHeight += size.height;
+                }
+            }
+            else
+            {
+                currentX = leftPadding + size.width;
+                intrinsicHeight += size.height;
+            }
         }
       } else {
         lineCount++;
@@ -63,10 +86,16 @@
       intrinsicWidth = MAX(intrinsicWidth, currentX + rightPadding);
     }
 
-    intrinsicHeight += bottomPadding + lineSpacing * (lineCount - 1);
+      if (self.maxLineCount > 0)
+      {
+          intrinsicHeight += bottomPadding + lineSpacing * (self.maxLineCount - 1);
+      }
+      else
+      {
+          intrinsicHeight += bottomPadding + lineSpacing * (lineCount - 1);
+      }
   } else {
     for (UIView *view in subviews) {
-//      CGSize size = view.intrinsicContentSize;
         CGSize size = view.intrinsicContentSize;
         if (size.width <= 0 || size.height <= 0)
         {
@@ -84,7 +113,6 @@
         first.height +
         bottomPadding;
   }
-
   return CGSizeMake(intrinsicWidth, intrinsicHeight);
 }
 
@@ -130,6 +158,8 @@
   CGFloat itemSpacing = self.interitemSpacing;
   CGFloat lineSpacing = self.lineSpacing;
   CGFloat currentX = leftPadding;
+    
+    NSInteger lineCount = 1;
 
   if (!self.singleLine && self.preferredMaxLayoutWidth > 0) {
     for (UIView *view in subviews) {
@@ -146,12 +176,23 @@
                                   size.width, size.height);
           currentX += size.width;
         } else {
-          CGFloat width = MIN(size.width, self.preferredMaxLayoutWidth -
-                                              leftPadding - rightPadding);
-          view.frame = CGRectMake(
-              leftPadding, CGRectGetMaxY(previousView.frame) + lineSpacing,
-              width, size.height);
-          currentX = leftPadding + width;
+            lineCount ++;
+            if (self.maxLineCount > 0 && lineCount >= self.maxLineCount + 1)
+            {
+                view.frame = CGRectMake(currentX, CGRectGetMinY(previousView.frame),
+                                        size.width, size.height);
+                currentX += size.width;
+            }
+            else
+            {
+                CGFloat width = MIN(size.width, self.preferredMaxLayoutWidth -
+                                    leftPadding - rightPadding);
+                view.frame = CGRectMake(
+                                        leftPadding, CGRectGetMaxY(previousView.frame) + lineSpacing,
+                                        width, size.height);
+                currentX = leftPadding + width;
+            }
+          
         }
       } else {
         CGFloat width = MIN(size.width, self.preferredMaxLayoutWidth -
